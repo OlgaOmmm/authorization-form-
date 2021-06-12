@@ -3,22 +3,26 @@
 <cfset UserLogin = #form.AuthLogin#>
 <cfset UserPassword = #form.AuthPassword#>
 
-<cfif ((#UserLogin# != "") && (#UserPassword# != ""))>
+<cfif ((#UserLogin# NEQ "") && (#UserPassword# NEQ ""))>
 
 	<cfquery name = "myQuery" datasource = "dampc2021">
-		SELECT login FROM authorization WHERE login = <cfqueryparam value="#UserLogin#" cfsqltype="cf_sql_varchar">
+		SELECT login 
+		FROM authorization 
+		WHERE login = <cfqueryparam value="#UserLogin#" cfsqltype="cf_sql_varchar">
 	</cfquery>
 	
-	<cfoutput query = "myQuery">
-		<cfloop list = "#myQuery.ColumnList#" index = "thisColumn">
-			<cfset dbLogin = #myQuery[thisColumn][myQuery.CurrentRow]#>
-		</cfloop>
-	</cfoutput>
+	
+	<cfloop list = "#myQuery.ColumnList#" index = "thisColumn">
+		<cfset dbLogin = #myQuery[thisColumn][myQuery.CurrentRow]#>
+	</cfloop>
+	
 
-	<cfif #dbLogin# != ""> 
+	<cfif #dbLogin# NEQ ""> 
 
 		<cfquery name = "myQuery" datasource = "dampc2021">
-			SELECT password FROM authorization WHERE login = <cfqueryparam value="#UserLogin#" cfsqltype="cf_sql_varchar">
+			SELECT password 
+			FROM authorization 
+			WHERE login = <cfqueryparam value="#UserLogin#" cfsqltype="cf_sql_varchar">
 		</cfquery>
 		
 		<cfoutput query = "myQuery">
@@ -37,12 +41,9 @@
 	<cfelse>
 		<cfset errorMessage = "Login is incorrect">
 		<cflocation url = "#ErrorPage#?error=#errorMessage#"> 
-	
 	</cfif>
-
-
+	
 <cfelse>
 	<cfset errorMessage = "Empty input value">
 	<cflocation url = "error.cfm?error=#errorMessage#"> 
-	
 </cfif>
