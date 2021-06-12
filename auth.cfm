@@ -1,7 +1,12 @@
 <cfinclude template = "ini.cfm">
 
-<cfset UserLogin = #form.AuthLogin#>
-<cfset UserPassword = #form.AuthPassword#>
+<cfif isDefined("form.AuthLogin") && isDefined("form.AuthPassword")>
+	<cfset UserLogin = #form.AuthLogin#>
+	<cfset UserPassword = #form.AuthPassword#>
+<cfelse>
+	<cfset errorMessage = "Input error. Try agaim">
+	<cflocation url = "#ErrorPage#?error=#errorMessage#"> 
+</cfif>
 
 <cfif ((#UserLogin# NEQ "") && (#UserPassword# NEQ ""))>
 
