@@ -21,7 +21,6 @@
 		<cfset dbLogin = #myQuery[thisColumn][myQuery.CurrentRow]#>
 	</cfloop>
 	
-
 	<cfif #dbLogin# NEQ ""> 
 
 		<cfquery name = "myQuery" datasource = "dampc2021">
@@ -29,12 +28,10 @@
 			FROM authorization 
 			WHERE login = <cfqueryparam value="#UserLogin#" cfsqltype="cf_sql_varchar">
 		</cfquery>
-		
-		<cfoutput query = "myQuery">
-			<cfloop list = "#myQuery.ColumnList#" index = "thisColumn">
-				<cfset dbPassword = #myQuery[thisColumn][myQuery.CurrentRow]#>
-			</cfloop>
-		</cfoutput>
+
+		<cfloop list = "#myQuery.ColumnList#" index = "thisColumn">
+			<cfset dbPassword = #myQuery[thisColumn][myQuery.CurrentRow]#>
+		</cfloop>
 	
 		<cfif #dbPassword# is #UserPassword#>
 			<cflocation url = #LoggedInPage#>
